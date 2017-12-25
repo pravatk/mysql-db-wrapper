@@ -8,8 +8,6 @@ phases:
     commands:
       - echo Starting to install modules on  `date`
       - export HOME_DIR=$PWD
-      # Build sns-slack module
-      - cd $HOME_DIR/lambda/others/sns-slack && npm install
       # COMMON
       # Build common modules
       - cd $HOME_DIR/kms && npm install
