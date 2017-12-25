@@ -1,0 +1,29 @@
+# This is the build specification for building node based lambda.
+# First step in the process is to install all required modules for the lambda. The next step is to package the lambda to a zip file, post which we use cloudformation package to upload the zip to s3.
+# We are using CloudFormation package command, which replaces the samTemplate.yaml file's CodeUri with the S3 url. The Output of the "cloudformation package" command would be the SAM template wuth replaced CodeUri.
+# The output artifact of the build step includes the sam template and the json file including the CloudFormation template parameters.
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo Starting to install modules on  `date`
+      - export HOME_DIR=$PWD
+      # Build sns-slack module
+      - cd $HOME_DIR/lambda/others/sns-slack && npm install
+      # COMMON
+      # Build common modules
+      - cd $HOME_DIR/kms && npm install
+      # Build Database utility library
+      - cd $HOME_DIR/db_utils && npm install 
+      # Build logger modules
+      - cd $HOME_DIR/kdlogger && npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - cd $HOME_DIR/db_utils && npm run coverage && npm run report
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - cd $HOME_DIR/db_utils/coverage
+      - zip -9rq coverage.zip .
+      - curl -D- -u $JIRA_USERNAME:$JIRA_PASSWORD -X POST -H "X-Atlassian-Token: nocheck" -F "file=@coverage.zip" https:/kickdrum.atlassian.net/rest/api/2/issue/$JIRA_TICKET/attachments
