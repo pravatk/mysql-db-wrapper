@@ -1,0 +1,18 @@
+{
+  "name": "kms-utils",
+  "version": "1.0.0",
+  "description": "Collection of APIs to encrypt and decrypt text using KMS keys",
+  "main": "kms-utils.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "kdlogger":"file:../kdlogger"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.170.0"
+  },
+  "author": "pravat",
+  "license": "Kickdrum Inc"
+}
