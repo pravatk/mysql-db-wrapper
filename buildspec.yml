@@ -24,6 +24,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      # Build coverage
       - cd $HOME_DIR/db_utils/coverage
       - zip -9rq coverage.zip .
-      - curl -D- -u $JIRA_USERNAME:$JIRA_PASSWORD -X POST -H "X-Atlassian-Token: nocheck" -F "file=@coverage.zip" https:/kickdrum.atlassian.net/rest/api/2/issue/$JIRA_TICKET/attachments
+      - curl -D- -u '$JIRA_USERNAME:$JIRA_PASSWORD' -X POST -H "X-Atlassian-Token: nocheck" -F "file=@coverage.zip" 'https:/kickdrum.atlassian.net/rest/api/2/issue/$JIRA_TICKET/attachments'
