@@ -7,6 +7,7 @@ phases:
   install:
     commands:
       - echo Starting to install modules on  `date`
+      - python --version
       - export HOME_DIR=$PWD
       # Build sns-slack module
       - cd $HOME_DIR/lambda/others/sns-slack && npm install
