@@ -9,8 +9,7 @@ phases:
       - echo Starting to install modules on  `date`
       - python --version
       - export HOME_DIR=$PWD
-      # Build sns-slack module
-      - cd $HOME_DIR/lambda/others/sns-slack && npm install
+      - python --version
       # COMMON
       # Build common modules
       - cd $HOME_DIR/kms && npm install
@@ -25,6 +24,8 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      # Build coverage
       - cd $HOME_DIR/db_utils/coverage
       - zip -9rq coverage.zip .
-      - curl -D- -u $JIRA_USERNAME:$JIRA_PASSWORD -X POST -H "X-Atlassian-Token: nocheck" -F "file=@coverage.zip" https:/kickdrum.atlassian.net/rest/api/2/issue/$JIRA_TICKET/attachments
+      - cp coverage.zip $HOME_DIR
+      - cd $HOME_DIR && sh $HOME_DIR/jira_update.sh
