@@ -8,6 +8,7 @@ phases:
     commands:
       - echo Starting to install modules on  `date`
       - export HOME_DIR=$PWD
+      - python --version
       # COMMON
       # Build common modules
       - cd $HOME_DIR/kms && npm install
